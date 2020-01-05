@@ -1,10 +1,11 @@
 import React from "react";
 import { Global, css } from "@emotion/core";
 import { designTokens } from "../utils/style";
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library, config } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
+config.autoAddCss = false;
 library.add(fab, faEnvelope);
 
 const globalStyles = css`
