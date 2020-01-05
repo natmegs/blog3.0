@@ -1,0 +1,560 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.18.12"/><style type="text/css">.gatsby-resp-image-image{width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;color:transparent;}</style><link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-b3b573358bfc66d89e1e95dbf8319c09.css"/><link rel="alternate" type="application/rss+xml" href="/rss.xml"/><link rel="icon" href="/icons/icon-48x48.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=edf3d310d67f8284a562bc3a58c3e761"/><title data-react-helmet="true">SQL Server and Node with Sequelize | Natalie&#x27;s Blog</title><meta data-react-helmet="true" name="description" content="I recently was working on a project that required interacting with a MSSQL database through a Node application. I waded through the depths of the internet to…"/><meta data-react-helmet="true" property="og:title" content="SQL Server and Node with Sequelize"/><meta data-react-helmet="true" property="og:description" content="I recently was working on a project that required interacting with a MSSQL database through a Node application. I waded through the depths of the internet to…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Natalie Smith"/><meta data-react-helmet="true" name="twitter:title" content="SQL Server and Node with Sequelize"/><meta data-react-helmet="true" name="twitter:description" content="I recently was working on a project that required interacting with a MSSQL database through a Node application. I waded through the depths of the internet to…"/><link as="script" rel="preload" href="/webpack-runtime-0ebcde4654fe31899b83.js"/><link as="script" rel="preload" href="/app-7371faf3ae2acd3ea6cf.js"/><link as="script" rel="preload" href="/commons-e02e7b673b1625a7a717.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-js-d0999d47565a679c9751.js"/><link as="fetch" rel="preload" href="/page-data/blog/2018-05-01-sqlserver-node-sequelize/page-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div><style data-emotion-css="1vlzy0o">*{box-sizing:border-box;font-size:14px;font-family:'Roboto';margin:0;padding:0;line-height:1.5;color:black;}html{font-size:14px;}h1,h2,h3,h4,h5,h6{font-family:'Raleway';}h1{font-size:30px;margin-bottom:12px;}h2{font-size:24px;}h3{font-size:18px;}p{padding:8px 0;}a{border:none;-webkit-text-decoration:none;text-decoration:none;font-size:inherit;color:#FF34B3;font-family:'Roboto';box-shadow:none;}a:visited{-webkit-text-decoration:none;text-decoration:none;color:#FF34B3;}a:active,a:hover{-webkit-text-decoration:underline;text-decoration:underline;color:#FF34B3;}.code,.language-text{font-family:'Roboto Mono';background-color:#F5F5F5;}</style><main><header><style data-emotion-css="1vwgfcw">.css-1vwgfcw{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:end;-webkit-justify-content:flex-end;-ms-flex-pack:end;justify-content:flex-end;padding:10px;}</style><div class="css-1vwgfcw etoqs333"><style data-emotion-css="faqhap">.css-faqhap{margin-left:24px;font-size:18px;}.css-faqhap a{color:black;-webkit-text-decoration:none;text-decoration:none;border-bottom:3px solid #FF34B3;}.css-faqhap a:visited{color:black;}.css-faqhap a:hover,.css-faqhap a:active{color:#FF34B3;}</style><div class="css-faqhap etoqs334"><a href="/">Home</a></div><div class="css-faqhap etoqs334"><a href="/about">About</a></div><div class="css-faqhap etoqs334"><a href="/blog">Blog</a></div></div></header><style data-emotion-css="lhfpqk">.css-lhfpqk{padding:10px;width:100%;max-width:700px;margin:0 auto;}</style><div class="css-lhfpqk etoqs331"><article><header><h1>SQL Server and Node with Sequelize</h1><p>May 01, 2018</p></header><section><p>I recently was working on a project that required interacting with a MSSQL database through a Node application. I waded through the depths of the internet to piece together my solution, taking insights from a variety of published solutions that didn’t quite meet my requirements. After some cycles of frustration/exhaustion, my Node API is now talking to my MSSQL server happily, and I can lay out the solution I came to with explanations for my future self (and anyone else who may need to do something similar).</p>
+<h3>Preface</h3>
+<p>Before I get into the implementation details, it’s probably important to recognize what some of my constraints were going into the project. First, the goal of (this part of) the project was to use Node to connect to a SQL Server database, create a users table, and perform basic lookups and insertions to lay the foundation for user authentication. Before I knew anything about how to accomplish my goal of interacting with my database using Node, I knew that my base tech stack was going to look like this:</p>
+<ul>
+<li>Node: web API backend</li>
+<li>Express: web framework for Node</li>
+<li>Passport: authentication middleware for Node</li>
+<li>MSSQL: database server</li>
+</ul>
+<p>These constraints impacted the choices I made with respect to additional libraries and packages. Node was chosen due to my familiarity with Javascript, and Express and Passport were chosen since I have basic experience with those packages. MSSQL as the database layer was chosen by default (not by me).</p>
+<h3>Interacting with SQL in Node</h3>
+<p>It became clear very quickly that SQL and Node are not used together nearly as often as relational databases such as MongoDB with Node. The documentation/tutorial situation on the topic was thus disparate and generally lacking. There are several packages published on npm with the goal of connecting and interacting with a SQL server and database in Node. </p>
+<ul>
+<li><a href="https://www.npmjs.com/package/sql">sql</a></li>
+<li><a href="https://www.npmjs.com/package/node-sql-template">node-sql-template</a> </li>
+<li><a href="https://www.npmjs.com/package/node-sql">node-sql</a> </li>
+<li><a href="https://www.npmjs.com/package/nodesql">nodesql</a> </li>
+<li><a href="https://www.npmjs.com/package/mssql">mssql</a> </li>
+<li><a href="https://www.npmjs.com/package/tedious">tedious</a> </li>
+<li><a href="https://www.npmjs.com/package/express4-tedious">express4-tedious</a> </li>
+<li><a href="https://www.npmjs.com/package/sequelize">sequelize</a> </li>
+</ul>
+<p>I will make it clear that my main priority for choosing libraries was documentation. It would not have been a good use of my time, in this particular project, to have to read library source code to understand how to accomplish basic tasks. After being led down the google search rabbit hole for this list, I ended up landing on <span class="code">tedious</span>, since it is officially supported by Microsoft and seemed to have decent documentation. I ended up finding <span class="code">express4-tedious</span> through one of the Microsoft/Azure code samples, and this seemed promising but had no documentation past a very basic use case. In browsing github issues for tedious, I came across some <a href="https://github.com/tediousjs/tedious/issues/690">survey results</a> that involved input from users who use Node to interact with SQL server (bingo). Despite the fact that there were a relatively small amount of total responses and the responder audience was clearly skewed by those who were already exposed to tedious in some sense, it was helpful to see how others are solving similar problems. </p>
+<p>The results showed that tedious was the most popular driver used to connect Node apps to SQL server, but I noticed some responses that indicated that responders were using tedious via <span class="code">sequelize</span>. Sequelize is a promise-based ORM for Node that supports mssql (among others), and its extensive documentation and even some blog tutorials were enough to convince me.</p>
+<p>It is important to note that sequelize is intended for use WITH a mssql driver, so tedious and sequelize are used together:</p>
+<p><span class="code">npm install tedious sequelize</span></p>
+<h3>Connecting to a SQL Server and Database</h3>
+<p>Ok, I still didn’t have much other than a starting point with tedious and sequelize. To begin with, I needed to create a connection to the SQL server. First I created a new Sequelize instance in my main app.js Node file and tested the connection using the sequelize authenticate method:</p>
+<p><div id="gist89326517" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-app-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-app-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-app-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">Sequelize</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>sequelize<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-app-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">sequelize</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Sequelize</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>database<span class="pl-pds">&#39;</span></span>, <span class="pl-s"><span class="pl-pds">&#39;</span>username<span class="pl-pds">&#39;</span></span>, <span class="pl-s"><span class="pl-pds">&#39;</span>password<span class="pl-pds">&#39;</span></span>, {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-app-js-LC3" class="blob-code blob-code-inner js-file-line">  host<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&#39;</span>SQL.server.address.database.net<span class="pl-pds">&#39;</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-app-js-LC4" class="blob-code blob-code-inner js-file-line">  dialect<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&#39;</span>mssql<span class="pl-pds">&#39;</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-app-js-LC5" class="blob-code blob-code-inner js-file-line">  dialectOptions<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-app-js-LC6" class="blob-code blob-code-inner js-file-line">    encrypt<span class="pl-k">:</span> <span class="pl-c1">true</span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-app-js-LC7" class="blob-code blob-code-inner js-file-line">  }</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-app-js-LC8" class="blob-code blob-code-inner js-file-line">});</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-app-js-LC9" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-app-js-LC10" class="blob-code blob-code-inner js-file-line">sequelize</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-app-js-LC11" class="blob-code blob-code-inner js-file-line">  .<span class="pl-en">authenticate</span>()</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-app-js-LC12" class="blob-code blob-code-inner js-file-line">  .<span class="pl-c1">then</span>(() <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-app-js-LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>Connection has been established successfully.<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-app-js-LC14" class="blob-code blob-code-inner js-file-line">  })</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-app-js-LC15" class="blob-code blob-code-inner js-file-line">  .<span class="pl-c1">catch</span>(<span class="pl-smi">err</span> <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-app-js-LC16" class="blob-code blob-code-inner js-file-line">    <span class="pl-en">console</span>.<span class="pl-c1">error</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>Unable to connect to the database:<span class="pl-pds">&#39;</span></span>, err);</td>
+      </tr>
+      <tr>
+        <td id="file-app-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-app-js-LC17" class="blob-code blob-code-inner js-file-line">  });</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/cdc78f2dd0d989594ab69f7664bdaedb/raw/512710599c4c3afdb18a35751b6792266ef1bea3/app.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/cdc78f2dd0d989594ab69f7664bdaedb#file-app-js">app.js</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<script src="https://gist.github.com/natmegs/cdc78f2dd0d989594ab69f7664bdaedb.js"></script>
+<p>Cool, now I know I can connect to the database. Next step is to do something useful with it…</p>
+<h3>Creating Models</h3>
+<p>Sequelize has the concept of database models, where we can define the shape of the data we are going to store in our database. The models correspond to tables in the database. In my case, I knew I needed a user table so I created a models folder in my project and added a user.js file to this folder. Here I defined my User model (and therefore my user table).</p>
+<p><div id="gist89326537" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-user-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-user-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-user-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">module</span>.<span class="pl-en">exports</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">sequelize</span>, <span class="pl-smi">Sequelize</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-user-js-LC2" class="blob-code blob-code-inner js-file-line">   <span class="pl-k">const</span> <span class="pl-c1">User</span> <span class="pl-k">=</span> <span class="pl-smi">sequelize</span>.<span class="pl-en">define</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>user<span class="pl-pds">&#39;</span></span>, {</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-user-js-LC3" class="blob-code blob-code-inner js-file-line">       id<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-user-js-LC4" class="blob-code blob-code-inner js-file-line">           autoIncrement<span class="pl-k">:</span> <span class="pl-c1">true</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-user-js-LC5" class="blob-code blob-code-inner js-file-line">           primaryKey<span class="pl-k">:</span> <span class="pl-c1">true</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-user-js-LC6" class="blob-code blob-code-inner js-file-line">           type<span class="pl-k">:</span> <span class="pl-smi">Sequelize</span>.<span class="pl-c1">INTEGER</span></td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-user-js-LC7" class="blob-code blob-code-inner js-file-line">       },</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-user-js-LC8" class="blob-code blob-code-inner js-file-line">       firstname<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-user-js-LC9" class="blob-code blob-code-inner js-file-line">           type<span class="pl-k">:</span> <span class="pl-smi">Sequelize</span>.<span class="pl-c1">STRING</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-user-js-LC10" class="blob-code blob-code-inner js-file-line">           notEmpty<span class="pl-k">:</span> <span class="pl-c1">true</span></td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-user-js-LC11" class="blob-code blob-code-inner js-file-line">       },</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-user-js-LC12" class="blob-code blob-code-inner js-file-line">       lastname<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-user-js-LC13" class="blob-code blob-code-inner js-file-line">           type<span class="pl-k">:</span> <span class="pl-smi">Sequelize</span>.<span class="pl-c1">STRING</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-user-js-LC14" class="blob-code blob-code-inner js-file-line">           notEmpty<span class="pl-k">:</span> <span class="pl-c1">true</span></td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-user-js-LC15" class="blob-code blob-code-inner js-file-line">       },</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-user-js-LC16" class="blob-code blob-code-inner js-file-line">       email<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-user-js-LC17" class="blob-code blob-code-inner js-file-line">           type<span class="pl-k">:</span> <span class="pl-smi">Sequelize</span>.<span class="pl-c1">STRING</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-user-js-LC18" class="blob-code blob-code-inner js-file-line">           unique<span class="pl-k">:</span> <span class="pl-c1">true</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-user-js-LC19" class="blob-code blob-code-inner js-file-line">           notEmpty<span class="pl-k">:</span> <span class="pl-c1">true</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-user-js-LC20" class="blob-code blob-code-inner js-file-line">           validate<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-user-js-LC21" class="blob-code blob-code-inner js-file-line">               isEmail<span class="pl-k">:</span> <span class="pl-c1">true</span></td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-user-js-LC22" class="blob-code blob-code-inner js-file-line">           }</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-user-js-LC23" class="blob-code blob-code-inner js-file-line">       },</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-user-js-LC24" class="blob-code blob-code-inner js-file-line">       password<span class="pl-k">:</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-user-js-LC25" class="blob-code blob-code-inner js-file-line">           type<span class="pl-k">:</span> <span class="pl-smi">Sequelize</span>.<span class="pl-c1">STRING</span>,</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-user-js-LC26" class="blob-code blob-code-inner js-file-line">           allowNull<span class="pl-k">:</span> <span class="pl-c1">false</span></td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-user-js-LC27" class="blob-code blob-code-inner js-file-line">       },</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-user-js-LC28" class="blob-code blob-code-inner js-file-line">   });</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-user-js-LC29" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-user-js-LC30" class="blob-code blob-code-inner js-file-line">   <span class="pl-k">return</span> User;</td>
+      </tr>
+      <tr>
+        <td id="file-user-js-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-user-js-LC31" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/38b32b8e0defe9975d8f99ff5814f6d8/raw/9c4c50e876b97b08552488f232fe99991d6115e5/user.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/38b32b8e0defe9975d8f99ff5814f6d8#file-user-js">user.js</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<script src="https://gist.github.com/natmegs/38b32b8e0defe9975d8f99ff5814f6d8.js"></script>
+<p>Since I will likely have other models as well as User eventually, I need a place to bring together all the models in one place. In the models folder, I made an index.js file to do exactly this.</p>
+<p><div id="gist89326552" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-index-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-index-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-index-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">fs</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>fs<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-index-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">path</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>path<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-index-js-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">Sequelize</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>sequelize<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-index-js-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">config</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>../config/db<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-index-js-LC5" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-index-js-LC6" class="blob-code blob-code-inner js-file-line"><span class="pl-k">let</span> db <span class="pl-k">=</span> {};</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-index-js-LC7" class="blob-code blob-code-inner js-file-line"><span class="pl-k">let</span> sequelize <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Sequelize</span>(<span class="pl-smi">config</span>.<span class="pl-smi">database</span>, <span class="pl-smi">config</span>.<span class="pl-smi">username</span>, <span class="pl-smi">config</span>.<span class="pl-smi">password</span>, <span class="pl-smi">config</span>.<span class="pl-c1">options</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-index-js-LC8" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-index-js-LC9" class="blob-code blob-code-inner js-file-line">fs</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-index-js-LC10" class="blob-code blob-code-inner js-file-line">   .<span class="pl-en">readdirSync</span>(<span class="pl-c1">__dirname</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-index-js-LC11" class="blob-code blob-code-inner js-file-line">   .<span class="pl-en">filter</span>(<span class="pl-smi">file</span> <span class="pl-k">=&gt;</span> (<span class="pl-smi">file</span>.<span class="pl-c1">indexOf</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>.<span class="pl-pds">&quot;</span></span>) <span class="pl-k">!==</span> <span class="pl-c1">0</span>) <span class="pl-k">&amp;&amp;</span> (file <span class="pl-k">!==</span> <span class="pl-s"><span class="pl-pds">&#39;</span>index.js<span class="pl-pds">&#39;</span></span>))</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-index-js-LC12" class="blob-code blob-code-inner js-file-line">   .<span class="pl-c1">forEach</span>(<span class="pl-smi">file</span> <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-index-js-LC13" class="blob-code blob-code-inner js-file-line">       <span class="pl-k">let</span> model <span class="pl-k">=</span> <span class="pl-smi">sequelize</span>.<span class="pl-en">import</span>(<span class="pl-smi">path</span>.<span class="pl-c1">join</span>(<span class="pl-c1">__dirname</span>, file));</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-index-js-LC14" class="blob-code blob-code-inner js-file-line">       db[<span class="pl-smi">model</span>.<span class="pl-c1">name</span>] <span class="pl-k">=</span> model;</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-index-js-LC15" class="blob-code blob-code-inner js-file-line">   });</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-index-js-LC16" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-index-js-LC17" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">Object</span>.<span class="pl-c1">keys</span>(db).<span class="pl-c1">forEach</span>(<span class="pl-smi">modelName</span> <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-index-js-LC18" class="blob-code blob-code-inner js-file-line">   <span class="pl-k">if</span>(<span class="pl-s"><span class="pl-pds">&quot;</span>associate<span class="pl-pds">&quot;</span></span> <span class="pl-k">in</span> db[modelName]) {</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-index-js-LC19" class="blob-code blob-code-inner js-file-line">       db[modelName].<span class="pl-en">associate</span>(db);</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-index-js-LC20" class="blob-code blob-code-inner js-file-line">   }</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-index-js-LC21" class="blob-code blob-code-inner js-file-line">});</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-index-js-LC22" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-index-js-LC23" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">db</span>.<span class="pl-smi">sequelize</span> <span class="pl-k">=</span> sequelize;</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-index-js-LC24" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">db</span>.<span class="pl-smi">Sequelize</span> <span class="pl-k">=</span> Sequelize;</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-index-js-LC25" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-index-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-index-js-LC26" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">module</span>.<span class="pl-smi">exports</span> <span class="pl-k">=</span> db;</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/23352adb72127f1a56dbe33ff4539263/raw/392dd1a7102042b7a8473fba34a32c1ff765894e/index.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/23352adb72127f1a56dbe33ff4539263#file-index-js">index.js</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<script src="https://gist.github.com/natmegs/23352adb72127f1a56dbe33ff4539263.js"></script>
+<p>I use the sequelize define method as well as sequelize types to create our user definition. The entries (email, password, etc) will correspond to columns in my user table in my database. Then I load all the models in the models folder into a single exported object in models/index.js.</p>
+<h3>Database Synchronization</h3>
+<p>So now I have</p>
+<ul>
+<li>Two installed packages (sequelize, tedious)</li>
+<li>A test connection using sequelize</li>
+<li>A user model</li>
+</ul>
+<p>But if I look at my database it’s still empty, so I need to create the user table in the database. Since I have my model structure, I can hand off the work to sequelize using the <span class="code">sync</span> method. This method will sync (create tables for) all models that aren’t already in the database.</p>
+<p>In my case, I’m using Express (specifically the Express generator) to set up my Node application so the best place to sync the database is before the server starts listening to its designated port. With the Express generator, this happens in the bin/www file:</p>
+<p><div id="gist89326579" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-www" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-text ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-www-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-www-LC1" class="blob-code blob-code-inner js-file-line">const models = require(&#39;../models&#39;);</td>
+      </tr>
+      <tr>
+        <td id="file-www-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-www-LC2" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-www-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-www-LC3" class="blob-code blob-code-inner js-file-line">models.sequelize.sync().then(function() {</td>
+      </tr>
+      <tr>
+        <td id="file-www-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-www-LC4" class="blob-code blob-code-inner js-file-line"> server.listen(port);</td>
+      </tr>
+      <tr>
+        <td id="file-www-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-www-LC5" class="blob-code blob-code-inner js-file-line"> server.on(&#39;error&#39;, onError);</td>
+      </tr>
+      <tr>
+        <td id="file-www-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-www-LC6" class="blob-code blob-code-inner js-file-line"> server.on(&#39;listening&#39;, onListening);</td>
+      </tr>
+      <tr>
+        <td id="file-www-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-www-LC7" class="blob-code blob-code-inner js-file-line">});</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/5a63c601689a806eec12448283d04fe0/raw/82f62bcadd79dcc2c9a18674608565d272a9c8e9/www" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/5a63c601689a806eec12448283d04fe0#file-www">www</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<script src="https://gist.github.com/natmegs/5a63c601689a806eec12448283d04fe0.js"></script>
+<p>Now, I can interact with my database and tables through the models export from anywhere in the Node app.</p>
+<h3>Querying the Database</h3>
+<p>Now that I have my models set up and my database synchronized, I can query the database tables anywhere in the app by importing models. For example:</p>
+<p><div id="gist89326618" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-example-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-example-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-example-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">const</span> <span class="pl-c1">models</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>../models<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-example-js-LC2" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-example-js-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">models</span>.<span class="pl-smi">user</span>.<span class="pl-en">findOne</span>({ where<span class="pl-k">:</span> {id<span class="pl-k">:</span> id} })</td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-example-js-LC4" class="blob-code blob-code-inner js-file-line">   .<span class="pl-c1">then</span>(<span class="pl-smi">user</span> <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-example-js-LC5" class="blob-code blob-code-inner js-file-line">     <span class="pl-c"><span class="pl-c">//</span> Do something with User instance</span></td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-example-js-LC6" class="blob-code blob-code-inner js-file-line">   });</td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-example-js-LC7" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-example-js-LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">models</span>.<span class="pl-smi">user</span>.<span class="pl-en">create</span>(data)</td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-example-js-LC9" class="blob-code blob-code-inner js-file-line">     .<span class="pl-c1">then</span>((<span class="pl-smi">newUser</span>) <span class="pl-k">=&gt;</span> {</td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-example-js-LC10" class="blob-code blob-code-inner js-file-line">       <span class="pl-c"><span class="pl-c">//</span> Do something with User instance</span></td>
+      </tr>
+      <tr>
+        <td id="file-example-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-example-js-LC11" class="blob-code blob-code-inner js-file-line">     });</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/f16e24bc5813a5db57e0c864c9952610/raw/4624c0b2b3aaa8e7dba7c06c57560d0d9b99728a/example.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/f16e24bc5813a5db57e0c864c9952610#file-example-js">example.js</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<script src="https://gist.github.com/natmegs/f16e24bc5813a5db57e0c864c9952610.js"></script>
+<p>The methods <span class="code">findOne</span> and <span class="code">create</span> are both provided by the Sequelize library, and return model instances.</p>
+<p>I will do a follow up post with more details on implementing authentication using Node, Express, Passport, Sequelize, and MSSQL. But for now, this is the basic gist of how to get going with connecting to, setting up tables in, and querying a database.</p></section><hr/></article><nav><style data-emotion-css="33o08p">.css-33o08p{list-style-type:none;}.css-33o08p li{margin-bottom:10px;}.css-33o08p li:last-child{margin-bottom:0;}</style><ul class="css-33o08p ektc3780"><li><a rel="prev" href="/blog/2018-05-01-ngtemplate-ngcontainer-ngcontent/">← <!-- -->ng-template, ng-container, and ng-content in Angular</a></li><li><a rel="next" href="/blog/2019-wrapup/">2019 in books<!-- --> →</a></li></ul></nav></div></main></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blog/2018-05-01-sqlserver-node-sequelize/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-7371faf3ae2acd3ea6cf.js"],"component---src-templates-blog-post-js":["/component---src-templates-blog-post-js-d0999d47565a679c9751.js"],"component---src-pages-404-js":["/component---src-pages-404-js-95be82094838954b5e45.js"],"component---src-pages-about-js":["/component---src-pages-about-js-16c031030c61155c55d5.js"],"component---src-pages-blog-js":["/component---src-pages-blog-js-5c934d09b4c1c2e2a3e1.js"],"component---src-pages-index-js":["/component---src-pages-index-js-b7cbeefc6d24750e4a48.js"]};/*]]>*/</script><script src="/component---src-templates-blog-post-js-d0999d47565a679c9751.js" async=""></script><script src="/commons-e02e7b673b1625a7a717.js" async=""></script><script src="/app-7371faf3ae2acd3ea6cf.js" async=""></script><script src="/webpack-runtime-0ebcde4654fe31899b83.js" async=""></script></body></html>

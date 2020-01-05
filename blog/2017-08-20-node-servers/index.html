@@ -1,0 +1,678 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.18.12"/><style type="text/css">.gatsby-resp-image-image{width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;color:transparent;}</style><link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-b3b573358bfc66d89e1e95dbf8319c09.css"/><link rel="alternate" type="application/rss+xml" href="/rss.xml"/><link rel="icon" href="/icons/icon-48x48.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=edf3d310d67f8284a562bc3a58c3e761"/><title data-react-helmet="true">Node Servers | Natalie&#x27;s Blog</title><meta data-react-helmet="true" name="description" content="Node server basics"/><meta data-react-helmet="true" property="og:title" content="Node Servers"/><meta data-react-helmet="true" property="og:description" content="Node server basics"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Natalie Smith"/><meta data-react-helmet="true" name="twitter:title" content="Node Servers"/><meta data-react-helmet="true" name="twitter:description" content="Node server basics"/><link as="script" rel="preload" href="/webpack-runtime-0ebcde4654fe31899b83.js"/><link as="script" rel="preload" href="/app-7371faf3ae2acd3ea6cf.js"/><link as="script" rel="preload" href="/commons-e02e7b673b1625a7a717.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-js-d0999d47565a679c9751.js"/><link as="fetch" rel="preload" href="/page-data/blog/2017-08-20-node-servers/page-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div><style data-emotion-css="1vlzy0o">*{box-sizing:border-box;font-size:14px;font-family:'Roboto';margin:0;padding:0;line-height:1.5;color:black;}html{font-size:14px;}h1,h2,h3,h4,h5,h6{font-family:'Raleway';}h1{font-size:30px;margin-bottom:12px;}h2{font-size:24px;}h3{font-size:18px;}p{padding:8px 0;}a{border:none;-webkit-text-decoration:none;text-decoration:none;font-size:inherit;color:#FF34B3;font-family:'Roboto';box-shadow:none;}a:visited{-webkit-text-decoration:none;text-decoration:none;color:#FF34B3;}a:active,a:hover{-webkit-text-decoration:underline;text-decoration:underline;color:#FF34B3;}.code,.language-text{font-family:'Roboto Mono';background-color:#F5F5F5;}</style><main><header><style data-emotion-css="1vwgfcw">.css-1vwgfcw{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:end;-webkit-justify-content:flex-end;-ms-flex-pack:end;justify-content:flex-end;padding:10px;}</style><div class="css-1vwgfcw etoqs333"><style data-emotion-css="faqhap">.css-faqhap{margin-left:24px;font-size:18px;}.css-faqhap a{color:black;-webkit-text-decoration:none;text-decoration:none;border-bottom:3px solid #FF34B3;}.css-faqhap a:visited{color:black;}.css-faqhap a:hover,.css-faqhap a:active{color:#FF34B3;}</style><div class="css-faqhap etoqs334"><a href="/">Home</a></div><div class="css-faqhap etoqs334"><a href="/about">About</a></div><div class="css-faqhap etoqs334"><a href="/blog">Blog</a></div></div></header><style data-emotion-css="lhfpqk">.css-lhfpqk{padding:10px;width:100%;max-width:700px;margin:0 auto;}</style><div class="css-lhfpqk etoqs331"><article><header><h1>Node Servers</h1><p>August 20, 2017</p></header><section><p>In the process of learning the MEAN stack, I’ve come across several tutorials that use Node functions and libraries but never explain how they work. They may show a Node function and how to use it in a particular use case, but didn’t get into the details of how the underlying mechanisms worked. This way of learning has never really worked for me and I end up struggling to use what’s being taught outside the tutorial context. So I decided I needed to start from the ground up in Node specifically, learning how and why everything works.</p>
+<h3>De-Mystifying Node</h3>
+<p>I started the <a href="https://www.udemy.com/understand-nodejs/learn/v4/overview">Understand Nodejs course</a> from Udemy and so far it’s been exactly what I needed. The instructor is fantastic and really helps to understand the core functionality of Node and explains what’s actually happening under the hood. It has totally demystified many core concepts within Node for me and I am gaining an understanding of how to use the Node core libraries to build custom and tailored applications. I am about 2/3rds of the way through the course now and just finished the section dealing with creating servers.</p>
+<h3>Servers</h3>
+<p>This is such a core concept in Node that I thought I would go through my learning process and include code samples with detailed comments that really helped  me understand what was going on. I’ve tried to be detailed in the comments to break down what’s happening at each step. We started with a very basic server that returned plain text in its response.</p>
+<p><div id="gist75003412" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-server-plain-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-server-plain-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-server-plain-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> http <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>http<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-server-plain-js-LC2" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-server-plain-js-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Creates new Server object</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-server-plain-js-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> and takes a callback as param.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-server-plain-js-LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> The callback is an event listener;</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-server-plain-js-LC6" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> When server emits particular event,</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-server-plain-js-LC7" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> this function will be called.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-server-plain-js-LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Callback takes 2 parameters, </span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-server-plain-js-LC9" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> request (type IncomingRequest) </span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-server-plain-js-LC10" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> and response (type ServerResponse).</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-server-plain-js-LC11" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Returns a Server object</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-server-plain-js-LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">http</span>.<span class="pl-en">createServer</span>(<span class="pl-k">function</span>(<span class="pl-smi">req</span>, <span class="pl-smi">res</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-server-plain-js-LC13" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-server-plain-js-LC14" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Here we build our response to a request</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-server-plain-js-LC15" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> ServerResponse.writeHead takes as parameters:</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-server-plain-js-LC16" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> 1. statusCode: number</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-server-plain-js-LC17" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> 2. reasonPhrase?: string</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-server-plain-js-LC18" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> 3. headers?: OutgoingHttpHeaders</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-server-plain-js-LC19" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> writeHead writes header of response</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-server-plain-js-LC20" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">res</span>.<span class="pl-en">writeHead</span>(<span class="pl-c1">200</span>, {<span class="pl-s"><span class="pl-pds">&#39;</span>Content-Type<span class="pl-pds">&#39;</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&#39;</span>text/plain<span class="pl-pds">&#39;</span></span>});</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-server-plain-js-LC21" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-server-plain-js-LC22" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> end() method sends content of the response to the client</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-server-plain-js-LC23" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> and signals to the server that the response</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-server-plain-js-LC24" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> has been sent completely.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-server-plain-js-LC25" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> If you are going to send anything else, use </span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-server-plain-js-LC26" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> write() instead of end().</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-server-plain-js-LC27" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> end() must be called on each response.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-server-plain-js-LC28" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> end() takes params:</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-server-plain-js-LC29" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> 1. data: string</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-server-plain-js-LC30" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> 2. encoding?: string</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-server-plain-js-LC31" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> 3. callback?: Function</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L32" class="blob-num js-line-number" data-line-number="32"></td>
+        <td id="file-server-plain-js-LC32" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> If callback is specified, it wil be called when</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L33" class="blob-num js-line-number" data-line-number="33"></td>
+        <td id="file-server-plain-js-LC33" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> the response stream is finished.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L34" class="blob-num js-line-number" data-line-number="34"></td>
+        <td id="file-server-plain-js-LC34" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">res</span>.<span class="pl-en">end</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>Hello world<span class="pl-cce">\n</span><span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L35" class="blob-num js-line-number" data-line-number="35"></td>
+        <td id="file-server-plain-js-LC35" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L36" class="blob-num js-line-number" data-line-number="36"></td>
+        <td id="file-server-plain-js-LC36" class="blob-code blob-code-inner js-file-line">}).<span class="pl-en">listen</span>(<span class="pl-c1">1337</span>, <span class="pl-s"><span class="pl-pds">&#39;</span>127.0.0.1<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L37" class="blob-num js-line-number" data-line-number="37"></td>
+        <td id="file-server-plain-js-LC37" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> We call listen() on the Server object that is returned.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L38" class="blob-num js-line-number" data-line-number="38"></td>
+        <td id="file-server-plain-js-LC38" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> listen() takes the following params:</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L39" class="blob-num js-line-number" data-line-number="39"></td>
+        <td id="file-server-plain-js-LC39" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> 1. port?: number</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L40" class="blob-num js-line-number" data-line-number="40"></td>
+        <td id="file-server-plain-js-LC40" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> 2. hostname?: string</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L41" class="blob-num js-line-number" data-line-number="41"></td>
+        <td id="file-server-plain-js-LC41" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> 3. backlog?: number</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L42" class="blob-num js-line-number" data-line-number="42"></td>
+        <td id="file-server-plain-js-LC42" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> 4. listeningListener?: Function</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L43" class="blob-num js-line-number" data-line-number="43"></td>
+        <td id="file-server-plain-js-LC43" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> listen() returns a Server object.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L44" class="blob-num js-line-number" data-line-number="44"></td>
+        <td id="file-server-plain-js-LC44" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> 127.0.0.1 is standard internal IP address of localhost.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L45" class="blob-num js-line-number" data-line-number="45"></td>
+        <td id="file-server-plain-js-LC45" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Allows us to make request via localhost:1337</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L46" class="blob-num js-line-number" data-line-number="46"></td>
+        <td id="file-server-plain-js-LC46" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L47" class="blob-num js-line-number" data-line-number="47"></td>
+        <td id="file-server-plain-js-LC47" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L48" class="blob-num js-line-number" data-line-number="48"></td>
+        <td id="file-server-plain-js-LC48" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Execute file in command line;</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L49" class="blob-num js-line-number" data-line-number="49"></td>
+        <td id="file-server-plain-js-LC49" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> It keeps running and listens for requests.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L50" class="blob-num js-line-number" data-line-number="50"></td>
+        <td id="file-server-plain-js-LC50" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Give it a request by navigating to localhost:1337 in browser.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L51" class="blob-num js-line-number" data-line-number="51"></td>
+        <td id="file-server-plain-js-LC51" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> This looks on localhost for a program that</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L52" class="blob-num js-line-number" data-line-number="52"></td>
+        <td id="file-server-plain-js-LC52" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> is listening on port 1337 and gives it HTTP request</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L53" class="blob-num js-line-number" data-line-number="53"></td>
+        <td id="file-server-plain-js-LC53" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> that browser is going to make.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L54" class="blob-num js-line-number" data-line-number="54"></td>
+        <td id="file-server-plain-js-LC54" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Node code will be run because request event will be emitted</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L55" class="blob-num js-line-number" data-line-number="55"></td>
+        <td id="file-server-plain-js-LC55" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> and we have server listening and we gave it a function;</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L56" class="blob-num js-line-number" data-line-number="56"></td>
+        <td id="file-server-plain-js-LC56" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> function will be invoked, which will read the request</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L57" class="blob-num js-line-number" data-line-number="57"></td>
+        <td id="file-server-plain-js-LC57" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> and allow me to write the response.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L58" class="blob-num js-line-number" data-line-number="58"></td>
+        <td id="file-server-plain-js-LC58" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> HTTP response will be built and sent back to the browser,</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L59" class="blob-num js-line-number" data-line-number="59"></td>
+        <td id="file-server-plain-js-LC59" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> and browser will go on and do whatever it wants with it</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L60" class="blob-num js-line-number" data-line-number="60"></td>
+        <td id="file-server-plain-js-LC60" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> (whatever it has been programmed to do with that</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-plain-js-L61" class="blob-num js-line-number" data-line-number="61"></td>
+        <td id="file-server-plain-js-LC61" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> particular type of response).</span></td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/81f11655d0ed7c22cd0cf924f5465707/raw/3969d291fcfc823a50cbbc1af942c81ed23802cb/server-plain.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/81f11655d0ed7c22cd0cf924f5465707#file-server-plain-js">server-plain.js</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<p>We then moved on and created another simple server that returned HTML content in the response.</p>
+<p><div id="gist75003512" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-server-html-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-server-html-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-server-html-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> http <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>http<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-server-html-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> fs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>fs<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-server-html-js-LC3" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-server-html-js-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">http</span>.<span class="pl-en">createServer</span>(<span class="pl-k">function</span>(<span class="pl-smi">req</span>, <span class="pl-smi">res</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-server-html-js-LC5" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Specify html content type</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-server-html-js-LC6" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">res</span>.<span class="pl-en">writeHead</span>(<span class="pl-c1">200</span>, { <span class="pl-s"><span class="pl-pds">&#39;</span>Content-Type<span class="pl-pds">&#39;</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&#39;</span>text/html<span class="pl-pds">&#39;</span></span> });</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-server-html-js-LC7" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-server-html-js-LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Read contents of index.htm file synchronously,</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-server-html-js-LC9" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Saved as string in var html</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-server-html-js-LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> html <span class="pl-k">=</span> <span class="pl-smi">fs</span>.<span class="pl-en">readFileSync</span>(<span class="pl-c1">__dirname</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">&#39;</span>/index.htm<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-server-html-js-LC11" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-server-html-js-LC12" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Send contents of index.htm file as body of response</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-server-html-js-LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">res</span>.<span class="pl-en">end</span>(html);</td>
+      </tr>
+      <tr>
+        <td id="file-server-html-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-server-html-js-LC14" class="blob-code blob-code-inner js-file-line">}).<span class="pl-en">listen</span>(<span class="pl-c1">1337</span>, <span class="pl-s"><span class="pl-pds">&#39;</span>127.0.0.1<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/8c55b8373c88a2103c21fef4bb0546e6/raw/c676224891df935364cdba573d5d00af31c05586/server-html.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/8c55b8373c88a2103c21fef4bb0546e6#file-server-html-js">server-html.js</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<p><div id="gist75003547" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-index-htm" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-html ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-index-htm-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-index-htm-LC1" class="blob-code blob-code-inner js-file-line">&lt;<span class="pl-ent">html</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index-htm-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-index-htm-LC2" class="blob-code blob-code-inner js-file-line">    &lt;<span class="pl-ent">head</span>&gt;&lt;/<span class="pl-ent">head</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index-htm-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-index-htm-LC3" class="blob-code blob-code-inner js-file-line">    &lt;<span class="pl-ent">body</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index-htm-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-index-htm-LC4" class="blob-code blob-code-inner js-file-line">        &lt;<span class="pl-ent">h1</span>&gt;Jelly Filled Donut&lt;/<span class="pl-ent">h1</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index-htm-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-index-htm-LC5" class="blob-code blob-code-inner js-file-line">    &lt;/<span class="pl-ent">body</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index-htm-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-index-htm-LC6" class="blob-code blob-code-inner js-file-line">&lt;/<span class="pl-ent">html</span>&gt;</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/87a499a71fa9c1f6621151ea26fdc366/raw/aed6f5d61e0b6b86f093b92a6476ab4b05ec67b3/index.htm" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/87a499a71fa9c1f6621151ea26fdc366#file-index-htm">index.htm</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<p>Next we created an HTML file that we wanted to have dynamic content. We wanted to replace {Message} with with a message variable.</p>
+<p><div id="gist75003616" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-server-htmldynamic-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-server-htmldynamic-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-server-htmldynamic-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> http <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>http<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-server-htmldynamic-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> fs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>fs<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-server-htmldynamic-js-LC3" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-server-htmldynamic-js-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">http</span>.<span class="pl-en">createServer</span>(<span class="pl-k">function</span>(<span class="pl-smi">req</span>, <span class="pl-smi">res</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-server-htmldynamic-js-LC5" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Specify html content type</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-server-htmldynamic-js-LC6" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">res</span>.<span class="pl-en">writeHead</span>(<span class="pl-c1">200</span>, { <span class="pl-s"><span class="pl-pds">&#39;</span>Content-Type<span class="pl-pds">&#39;</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&#39;</span>text/html<span class="pl-pds">&#39;</span></span> });</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-server-htmldynamic-js-LC7" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-server-htmldynamic-js-LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Read contents of index.htm file synchronously,</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-server-htmldynamic-js-LC9" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Saved as string in var html.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-server-htmldynamic-js-LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Use &#39;utf8&#39; param to specify encoding and ensure you are </span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-server-htmldynamic-js-LC11" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> dealing with a string rather than a buffer.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-server-htmldynamic-js-LC12" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> html <span class="pl-k">=</span> <span class="pl-smi">fs</span>.<span class="pl-en">readFileSync</span>(<span class="pl-c1">__dirname</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">&#39;</span>/index2.htm<span class="pl-pds">&#39;</span></span>, <span class="pl-s"><span class="pl-pds">&#39;</span>utf8<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-server-htmldynamic-js-LC13" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-server-htmldynamic-js-LC14" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> message <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">&#39;</span>Bostom Creme Donut<span class="pl-pds">&#39;</span></span>;</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-server-htmldynamic-js-LC15" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-server-htmldynamic-js-LC16" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Takes html string and replaces instances of </span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-server-htmldynamic-js-LC17" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> &#39;{Message}&#39; with value of message var</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-server-htmldynamic-js-LC18" class="blob-code blob-code-inner js-file-line">    html <span class="pl-k">=</span> <span class="pl-smi">html</span>.<span class="pl-c1">replace</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>{Message}<span class="pl-pds">&#39;</span></span>, message);</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-server-htmldynamic-js-LC19" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-server-htmldynamic-js-LC20" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Send contents of index.htm file as body of response</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-server-htmldynamic-js-LC21" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">res</span>.<span class="pl-en">end</span>(html);</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmldynamic-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-server-htmldynamic-js-LC22" class="blob-code blob-code-inner js-file-line">}).<span class="pl-en">listen</span>(<span class="pl-c1">1337</span>, <span class="pl-s"><span class="pl-pds">&#39;</span>127.0.0.1<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/ec842c1bd51f8225691e9d5424846301/raw/2088650d3d67b62251700c7fcfdd1f570bbb0e5f/server-htmldynamic.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/ec842c1bd51f8225691e9d5424846301#file-server-htmldynamic-js">server-htmldynamic.js</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<p><div id="gist75003649" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-index2-htm" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-html ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-index2-htm-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-index2-htm-LC1" class="blob-code blob-code-inner js-file-line">&lt;<span class="pl-ent">html</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index2-htm-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-index2-htm-LC2" class="blob-code blob-code-inner js-file-line">    &lt;<span class="pl-ent">head</span>&gt;&lt;/<span class="pl-ent">head</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index2-htm-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-index2-htm-LC3" class="blob-code blob-code-inner js-file-line">    &lt;<span class="pl-ent">body</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index2-htm-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-index2-htm-LC4" class="blob-code blob-code-inner js-file-line">        &lt;<span class="pl-ent">h1</span>&gt;{Message}&lt;/<span class="pl-ent">h1</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index2-htm-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-index2-htm-LC5" class="blob-code blob-code-inner js-file-line">    &lt;/<span class="pl-ent">body</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-index2-htm-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-index2-htm-LC6" class="blob-code blob-code-inner js-file-line">&lt;/<span class="pl-ent">html</span>&gt;</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/080ee6b8f3e98537000160d6e559d4e3/raw/6f41bbb81801a95539f225acbac28f52156317cf/index2.htm" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/080ee6b8f3e98537000160d6e559d4e3#file-index2-htm">index2.htm</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<p>Finally, we went back to the original server returning HTML and took out the synchronous readFileSync operation and replaced it with streams.</p>
+<p><div id="gist75003697" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-server-htmlstreams-js" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-javascript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-server-htmlstreams-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-server-htmlstreams-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> http <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>http<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-server-htmlstreams-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> fs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>fs<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-server-htmlstreams-js-LC3" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-server-htmlstreams-js-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-smi">http</span>.<span class="pl-en">createServer</span>(<span class="pl-k">function</span>(<span class="pl-smi">req</span>, <span class="pl-smi">res</span>) {</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-server-htmlstreams-js-LC5" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Specify html content type</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-server-htmlstreams-js-LC6" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">res</span>.<span class="pl-en">writeHead</span>(<span class="pl-c1">200</span>, { <span class="pl-s"><span class="pl-pds">&#39;</span>Content-Type<span class="pl-pds">&#39;</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&#39;</span>text/html<span class="pl-pds">&#39;</span></span> });</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-server-htmlstreams-js-LC7" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-server-htmlstreams-js-LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Replaced readFileSync and end with createReadStream.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-server-htmlstreams-js-LC9" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Read contents of index.htm and pipe to writeable stream res.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-server-htmlstreams-js-LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> Keeps buffer small, sends data a chunk at a time</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-server-htmlstreams-js-LC11" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> to res stream, thereby improving performance</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-server-htmlstreams-js-LC12" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">//</span> and avoiding synchronous operation.</span></td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-server-htmlstreams-js-LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-smi">fs</span>.<span class="pl-en">createReadStream</span>(<span class="pl-c1">__dirname</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">&#39;</span>/index.htm<span class="pl-pds">&#39;</span></span>).<span class="pl-en">pipe</span>(res);</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-server-htmlstreams-js-LC14" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-server-htmlstreams-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-server-htmlstreams-js-LC15" class="blob-code blob-code-inner js-file-line">}).<span class="pl-en">listen</span>(<span class="pl-c1">1337</span>, <span class="pl-s"><span class="pl-pds">&#39;</span>127.0.0.1<span class="pl-pds">&#39;</span></span>);</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/66fb99138e6977424355f5e3333b3eb5/raw/33c22f6277fbbcce442a7f8e3cca2e561fc5c406/server-htmlstreams.js" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/66fb99138e6977424355f5e3333b3eb5#file-server-htmlstreams-js">server-htmlstreams.js</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<p>These exercises helped me understand the basics of building Node servers and maybe it will be helpful to others getting started with Node. If anything is unclear or you have any suggestions or input, I would love to hear your feedback!</p></section><hr/></article><nav><style data-emotion-css="33o08p">.css-33o08p{list-style-type:none;}.css-33o08p li{margin-bottom:10px;}.css-33o08p li:last-child{margin-bottom:0;}</style><ul class="css-33o08p ektc3780"><li><a rel="next" href="/blog/2017-08-29-node-and-express/">Node and Express<!-- --> →</a></li></ul></nav></div></main></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blog/2017-08-20-node-servers/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-7371faf3ae2acd3ea6cf.js"],"component---src-templates-blog-post-js":["/component---src-templates-blog-post-js-d0999d47565a679c9751.js"],"component---src-pages-404-js":["/component---src-pages-404-js-95be82094838954b5e45.js"],"component---src-pages-about-js":["/component---src-pages-about-js-16c031030c61155c55d5.js"],"component---src-pages-blog-js":["/component---src-pages-blog-js-5c934d09b4c1c2e2a3e1.js"],"component---src-pages-index-js":["/component---src-pages-index-js-b7cbeefc6d24750e4a48.js"]};/*]]>*/</script><script src="/component---src-templates-blog-post-js-d0999d47565a679c9751.js" async=""></script><script src="/commons-e02e7b673b1625a7a717.js" async=""></script><script src="/app-7371faf3ae2acd3ea6cf.js" async=""></script><script src="/webpack-runtime-0ebcde4654fe31899b83.js" async=""></script></body></html>

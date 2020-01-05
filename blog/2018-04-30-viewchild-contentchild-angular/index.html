@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 2.18.12"/><style type="text/css">.gatsby-resp-image-image{width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;color:transparent;}</style><link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-b3b573358bfc66d89e1e95dbf8319c09.css"/><link rel="alternate" type="application/rss+xml" href="/rss.xml"/><link rel="icon" href="/icons/icon-48x48.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=edf3d310d67f8284a562bc3a58c3e761"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=edf3d310d67f8284a562bc3a58c3e761"/><title data-react-helmet="true">ViewChild(ren) and ContentChild(ren) in Angular | Natalie&#x27;s Blog</title><meta data-react-helmet="true" name="description" content="Similarities and differences between four Angular decorators."/><meta data-react-helmet="true" property="og:title" content="ViewChild(ren) and ContentChild(ren) in Angular"/><meta data-react-helmet="true" property="og:description" content="Similarities and differences between four Angular decorators."/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="Natalie Smith"/><meta data-react-helmet="true" name="twitter:title" content="ViewChild(ren) and ContentChild(ren) in Angular"/><meta data-react-helmet="true" name="twitter:description" content="Similarities and differences between four Angular decorators."/><link as="script" rel="preload" href="/webpack-runtime-0ebcde4654fe31899b83.js"/><link as="script" rel="preload" href="/app-7371faf3ae2acd3ea6cf.js"/><link as="script" rel="preload" href="/commons-e02e7b673b1625a7a717.js"/><link as="script" rel="preload" href="/component---src-templates-blog-post-js-d0999d47565a679c9751.js"/><link as="fetch" rel="preload" href="/page-data/blog/2018-04-30-viewchild-contentchild-angular/page-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group" id="gatsby-focus-wrapper"><div><style data-emotion-css="1vlzy0o">*{box-sizing:border-box;font-size:14px;font-family:'Roboto';margin:0;padding:0;line-height:1.5;color:black;}html{font-size:14px;}h1,h2,h3,h4,h5,h6{font-family:'Raleway';}h1{font-size:30px;margin-bottom:12px;}h2{font-size:24px;}h3{font-size:18px;}p{padding:8px 0;}a{border:none;-webkit-text-decoration:none;text-decoration:none;font-size:inherit;color:#FF34B3;font-family:'Roboto';box-shadow:none;}a:visited{-webkit-text-decoration:none;text-decoration:none;color:#FF34B3;}a:active,a:hover{-webkit-text-decoration:underline;text-decoration:underline;color:#FF34B3;}.code,.language-text{font-family:'Roboto Mono';background-color:#F5F5F5;}</style><main><header><style data-emotion-css="1vwgfcw">.css-1vwgfcw{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:end;-webkit-justify-content:flex-end;-ms-flex-pack:end;justify-content:flex-end;padding:10px;}</style><div class="css-1vwgfcw etoqs333"><style data-emotion-css="faqhap">.css-faqhap{margin-left:24px;font-size:18px;}.css-faqhap a{color:black;-webkit-text-decoration:none;text-decoration:none;border-bottom:3px solid #FF34B3;}.css-faqhap a:visited{color:black;}.css-faqhap a:hover,.css-faqhap a:active{color:#FF34B3;}</style><div class="css-faqhap etoqs334"><a href="/">Home</a></div><div class="css-faqhap etoqs334"><a href="/about">About</a></div><div class="css-faqhap etoqs334"><a href="/blog">Blog</a></div></div></header><style data-emotion-css="lhfpqk">.css-lhfpqk{padding:10px;width:100%;max-width:700px;margin:0 auto;}</style><div class="css-lhfpqk etoqs331"><article><header><h1>ViewChild(ren) and ContentChild(ren) in Angular</h1><p>April 30, 2018</p></header><section><p>ViewChild, ViewChildren, ContentChild, and ContentChildren are all decorators used to get access to elements, directives and/or components in the view DOM. Let’s break down why there are four decorators to do (seemingly) the similar tasks.</p>
+<h3>ViewChild</h3>
+<p>ViewChild is used to access to first element, component or directive matching the selector from the view DOM. The key here is it will only ever return one matched object even if multiple matching elements exist in the view DOM. If the view DOM changes and a new child matches the selector, the property will be updated. View queries are set before the AfterViewInit lifecycle hook, so if you are going to manipulate the ViewChild property in the component, it would be appropriate to do so from the ngAfterViewInit method.</p>
+<p>The ViewChild decorator takes a parameter we can use to specify the selector by:</p>
+<ul>
+<li>Type: Component or Directive class name (<span class="code">@ViewChild(ExampleComponent)</span>)</li>
+<li>String: template variable reference (<span class="code">@ViewChild(‘templateVarName’)</span>)</li>
+</ul>
+<p>The decorator also takes an optional second parameter which is an object with a single read property. We use this property if we want to read a different token from the queried elements. This is useful when we want to get the ViewContainerRef from a template in the view rather than the ComponentRef, TemplateRef or ElementRef.</p>
+<p>Below are some examples of how we would use these different methods in practice.</p>
+<p><div id="gist85348511" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-app-template-html" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-html ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-app-template-html-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-app-template-html-LC1" class="blob-code blob-code-inner js-file-line">&lt;<span class="pl-ent">hello</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">&quot;</span>Jelly Donut<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">hello</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-app-template-html-LC2" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-app-template-html-LC3" class="blob-code blob-code-inner js-file-line">&lt;<span class="pl-ent">hello</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">&quot;</span>Old Fashioned Glazed<span class="pl-pds">&quot;</span></span>&gt;&lt;/<span class="pl-ent">hello</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-app-template-html-LC4" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-app-template-html-LC5" class="blob-code blob-code-inner js-file-line">&lt;<span class="pl-ent">ng-container</span> <span class="pl-e">#container</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-app-template-html-LC6" class="blob-code blob-code-inner js-file-line"> This is a container</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-app-template-html-LC7" class="blob-code blob-code-inner js-file-line">&lt;/<span class="pl-ent">ng-container</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-app-template-html-LC8" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-app-template-html-LC9" class="blob-code blob-code-inner js-file-line">&lt;<span class="pl-ent">ng-template</span> <span class="pl-e">#template</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-app-template-html-LC10" class="blob-code blob-code-inner js-file-line"> This is a template</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-app-template-html-LC11" class="blob-code blob-code-inner js-file-line">&lt;/<span class="pl-ent">ng-template</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-app-template-html-LC12" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-app-template-html-LC13" class="blob-code blob-code-inner js-file-line">&lt;<span class="pl-ent">p</span> <span class="pl-e">#element</span>&gt;</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-app-template-html-LC14" class="blob-code blob-code-inner js-file-line"> This is an element</td>
+      </tr>
+      <tr>
+        <td id="file-app-template-html-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-app-template-html-LC15" class="blob-code blob-code-inner js-file-line">&lt;/<span class="pl-ent">p</span>&gt;</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/7157815465d61e53aba75c214df81ab7/raw/146fb4d7da5d879160b2d2617fcda19a38bcffe9/app.template.html" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/7157815465d61e53aba75c214df81ab7#file-app-template-html">app.template.html</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<p><div id="gist85348545" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-app-component-ts" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-typescript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-app-component-ts-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-app-component-ts-LC1" class="blob-code blob-code-inner js-file-line"> @<span class="pl-en">ViewChild</span>(<span class="pl-smi">HelloComponent</span>) <span class="pl-en">hello</span>: <span class="pl-smi">HelloComponent</span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-app-component-ts-LC2" class="blob-code blob-code-inner js-file-line"> @<span class="pl-en">ViewChild</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>template<span class="pl-pds">&#39;</span></span>) <span class="pl-en">template</span>: <span class="pl-smi">TemplateRef</span><span class="pl-k">&lt;</span><span class="pl-smi">any</span><span class="pl-k">&gt;</span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-app-component-ts-LC3" class="blob-code blob-code-inner js-file-line"> @<span class="pl-en">ViewChild</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>element<span class="pl-pds">&#39;</span></span>) <span class="pl-en">element</span>: <span class="pl-smi">ElementRef</span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-app-component-ts-LC4" class="blob-code blob-code-inner js-file-line"> @<span class="pl-en">ViewChild</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>container<span class="pl-pds">&#39;</span></span>, { read: <span class="pl-smi">ViewContainerRef</span> }) <span class="pl-en">container</span>: <span class="pl-smi">ViewContainerRef</span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-app-component-ts-LC5" class="blob-code blob-code-inner js-file-line">   </td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-app-component-ts-LC6" class="blob-code blob-code-inner js-file-line"> <span class="pl-en">ngAfterViewInit</span>() {</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-app-component-ts-LC7" class="blob-code blob-code-inner js-file-line">   <span class="pl-c1">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">this</span>.<span class="pl-smi">hello</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-app-component-ts-LC8" class="blob-code blob-code-inner js-file-line">   <span class="pl-c1">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">this</span>.<span class="pl-smi">template</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-app-component-ts-LC9" class="blob-code blob-code-inner js-file-line">   <span class="pl-c1">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">this</span>.<span class="pl-smi">element</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-app-component-ts-LC10" class="blob-code blob-code-inner js-file-line">   <span class="pl-c1">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">this</span>.<span class="pl-smi">container</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-app-component-ts-LC11" class="blob-code blob-code-inner js-file-line"> }</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/677a1b212d22d751485774fb9b6a0d0a/raw/0f42bced513e327bbc787c1bf2dd50cee5b19417/app.component.ts" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/677a1b212d22d751485774fb9b6a0d0a#file-app-component-ts">app.component.ts</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<script src="https://gist.github.com/natmegs/7157815465d61e53aba75c214df81ab7.js"></script>
+<script src="https://gist.github.com/natmegs/677a1b212d22d751485774fb9b6a0d0a.js"></script>
+<p>Since we have two HelloComponents in the template, the logging statement will print out the information for the first HelloComponent (with name Jelly Donut), since the ViewChild will look for the first matching selector.</p>
+<h3>ViewChildren</h3>
+<p>ViewChildren works the exact same way as ViewChild, except it returns a QueryList of all elements or directives that match the given selector, instead of just the first match. Similarly to ViewChild, if the view DOM changes and new children match the given selector, the property will be updated.</p>
+<p>If we have a simple <span class="code">HelloComponent</span> that is used multiple times in a view (ie the same view as the last example), we can target either the first instance or all instances via ViewChild and ViewChildren.</p>
+<p><div id="gist85348605" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-app-component-ts" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-typescript ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="file-app-component-ts-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-app-component-ts-LC1" class="blob-code blob-code-inner js-file-line">@<span class="pl-en">ViewChild</span>(<span class="pl-smi">HelloComponent</span>) <span class="pl-en">hello</span>: <span class="pl-smi">HelloComponent</span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-app-component-ts-LC2" class="blob-code blob-code-inner js-file-line">@<span class="pl-en">ViewChildren</span>(<span class="pl-smi">HelloComponent</span>) <span class="pl-en">hellos</span>: <span class="pl-smi">QueryList</span><span class="pl-k">&lt;</span><span class="pl-smi">HelloComponent</span><span class="pl-k">&gt;</span>;</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-app-component-ts-LC3" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-app-component-ts-LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-en">ngAfterViewInit</span>() {</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-app-component-ts-LC5" class="blob-code blob-code-inner js-file-line"> <span class="pl-c1">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">this</span>.<span class="pl-smi">hello</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-app-component-ts-LC6" class="blob-code blob-code-inner js-file-line"> <span class="pl-c1">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">this</span>.<span class="pl-smi">hellos</span>);</td>
+      </tr>
+      <tr>
+        <td id="file-app-component-ts-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-app-component-ts-LC7" class="blob-code blob-code-inner js-file-line">}</td>
+      </tr>
+</table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/natmegs/fc44743fd4ba73af68aa1459f2cad7da/raw/992f8c91d4e9e30b53143e480b4124daedfa537e/app.component.ts" style="float:right">view raw</a>
+        <a href="https://gist.github.com/natmegs/fc44743fd4ba73af68aa1459f2cad7da#file-app-component-ts">app.component.ts</a>
+        hosted with &#10084; by <a href="https://github.com">GitHub</a>
+      </div>
+    </div>
+</div></p>
+<script src="https://gist.github.com/natmegs/fc44743fd4ba73af68aa1459f2cad7da.js"></script>
+<h3>ContentChild and ContentChildren</h3>
+<p>ContentChild and ContentChildren work the same way as ViewChild and ViewChildren, but instead of querying the view DOM, they query the content DOM. We use these decorators when we want to access an element added to the component through an ngContent projection. Content queries are set before the AfterContentInit lifecycle hook.</p>
+<h3>QueryList</h3>
+<p>Since ViewChildren and ContentChildren return a QueryList of a specified type, it’s helpful to know some of the properties that exist on the QueryList type. The QueryList is an unmodifiable, iterable list of items that Angular keeps up to date whenever state changes (ie a fancy array). QueryList contains a changes Observable that can be subscribed to to be notified of any changes to the QueryList.</p>
+<p>Some properties that can be accessed on a QueryList<T>:</p>
+<ul>
+<li>dirty: boolean</li>
+<li>changes: Observable<any></li>
+<li>length: number</li>
+<li>first: T</li>
+<li>last: T</li>
+</ul>
+<p>And some methods available on a QueryList<T>:</p>
+<ul>
+<li>toArray(): T[]</li>
+<li>toString(): string</li>
+<li>reset(res: Array&#x3C;T | any[]>): void</li>
+<li>notifyOnChanges(): void</li>
+<li>setDirty(): void</li>
+<li>destroy(): void</li>
+</ul>
+<p>QueryList also implements its own (or similar) versions of many array methods.</p></section><hr/></article><nav><style data-emotion-css="33o08p">.css-33o08p{list-style-type:none;}.css-33o08p li{margin-bottom:10px;}.css-33o08p li:last-child{margin-bottom:0;}</style><ul class="css-33o08p ektc3780"><li><a rel="prev" href="/blog/2017-12-20-dynamic-components-angular/">← <!-- -->Dynamic Components in Angular</a></li><li><a rel="next" href="/blog/2018-05-01-ngtemplate-ngcontainer-ngcontent/">ng-template, ng-container, and ng-content in Angular<!-- --> →</a></li></ul></nav></div></main></div></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blog/2018-04-30-viewchild-contentchild-angular/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-7371faf3ae2acd3ea6cf.js"],"component---src-templates-blog-post-js":["/component---src-templates-blog-post-js-d0999d47565a679c9751.js"],"component---src-pages-404-js":["/component---src-pages-404-js-95be82094838954b5e45.js"],"component---src-pages-about-js":["/component---src-pages-about-js-16c031030c61155c55d5.js"],"component---src-pages-blog-js":["/component---src-pages-blog-js-5c934d09b4c1c2e2a3e1.js"],"component---src-pages-index-js":["/component---src-pages-index-js-b7cbeefc6d24750e4a48.js"]};/*]]>*/</script><script src="/component---src-templates-blog-post-js-d0999d47565a679c9751.js" async=""></script><script src="/commons-e02e7b673b1625a7a717.js" async=""></script><script src="/app-7371faf3ae2acd3ea6cf.js" async=""></script><script src="/webpack-runtime-0ebcde4654fe31899b83.js" async=""></script></body></html>
