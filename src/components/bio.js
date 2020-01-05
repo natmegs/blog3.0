@@ -6,17 +6,51 @@
  */
 
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, Link } from "gatsby"
 import Image from "gatsby-image"
+import styled from "@emotion/styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Container, designTokens, ImageContainer } from "../utils/style";
 
-import { rhythm } from "../utils/typography"
+const Nav = styled("div")`
+  display: inline;
+  margin-right: 18px;
+  font-size: 20px;
+
+  a {
+    padding: 8px;
+  }
+
+  a, a:visited {
+    color: black;
+    border: 3px solid ${designTokens.colours.accent};
+    text-decoration: none;
+  }
+
+  a:hover, a:active {
+    color: ${designTokens.colours.accent};
+  }
+`;
+
+const Description = styled("div")`
+  width: 100%;
+  max-width: 400px;
+`;
+
+const SocialContainer = styled("div")`
+  margin-top: 24px;
+`;
+
+const SocialLink = styled("a")`
+  margin-right: 10px;
+`;
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
     query BioQuery {
-      avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
+      avatar: file(absolutePath: { regex: "/nat_betty.jpg/" }) {
         childImageSharp {
-          fixed(width: 50, height: 50) {
+          fixed(width: 400) {
             ...GatsbyImageSharpFixed
           }
         }
@@ -24,45 +58,38 @@ const Bio = () => {
       site {
         siteMetadata {
           author
-          social {
-            twitter
-          }
         }
       }
     }
-  `)
+  `);
 
-  const { author, social } = data.site.siteMetadata
+  const { author } = data.site.siteMetadata;
   return (
-    <div
-      style={{
-        display: `flex`,
-        marginBottom: rhythm(2.5),
-      }}
-    >
-      <Image
-        fixed={data.avatar.childImageSharp.fixed}
-        alt={author}
-        style={{
-          marginRight: rhythm(1 / 2),
-          marginBottom: 0,
-          minWidth: 50,
-          borderRadius: `100%`,
-        }}
-        imgStyle={{
-          borderRadius: `50%`,
-        }}
-      />
-      <p>
-        Written by <strong>{author}</strong> who lives and works in San
-        Francisco building useful things.
-        {` `}
-        <a href={`https://twitter.com/${social.twitter}`}>
-          You should follow him on Twitter
-        </a>
-      </p>
-    </div>
+    <Container>
+      <ImageContainer>
+        <Image
+          fixed={data.avatar.childImageSharp.fixed}
+          alt={`${author} with dog on top of a mountain`}
+        />
+      </ImageContainer>
+      <Description>
+        <h1>Natalie</h1>
+        <Nav><Link to="/about">About</Link></Nav>
+        <Nav><Link to="/blog">Blog</Link></Nav>
+        <SocialContainer>
+          <SocialLink target="_blank" href="https://www.linkedin.com/in/smithnm/">
+            <FontAwesomeIcon icon={["fab", "linkedin"]} style={{color: designTokens.colours.accent}} />
+          </SocialLink>
+          <SocialLink href="mailto:nataliemegans@gmail.com">
+            <FontAwesomeIcon icon="envelope" style={{color: designTokens.colours.accent}} />
+          </SocialLink>
+          <SocialLink target="_blank" href="https://twitter.com/natalie_megan">
+            <FontAwesomeIcon icon={["fab", "twitter"]} color={designTokens.colours.accent} />
+          </SocialLink>
+        </SocialContainer>
+      </Description>
+    </Container>
   )
 }
 
-export default Bio
+export default Bio;

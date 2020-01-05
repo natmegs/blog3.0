@@ -1,75 +1,78 @@
-import React from "react"
-import { Link } from "gatsby"
+import React from "react";
+import { Global, css } from "@emotion/core";
+import { designTokens } from "../utils/style";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-import { rhythm, scale } from "../utils/typography"
+library.add(fab, faEnvelope);
 
-class Layout extends React.Component {
-  render() {
-    const { location, title, children } = this.props
-    const rootPath = `${__PATH_PREFIX__}/`
-    let header
-
-    if (location.pathname === rootPath) {
-      header = (
-        <h1
-          style={{
-            ...scale(1.5),
-            marginBottom: rhythm(1.5),
-            marginTop: 0,
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-            }}
-            to={`/`}
-          >
-            {title}
-          </Link>
-        </h1>
-      )
-    } else {
-      header = (
-        <h3
-          style={{
-            fontFamily: `Montserrat, sans-serif`,
-            marginTop: 0,
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-            }}
-            to={`/`}
-          >
-            {title}
-          </Link>
-        </h3>
-      )
-    }
-    return (
-      <div
-        style={{
-          marginLeft: `auto`,
-          marginRight: `auto`,
-          maxWidth: rhythm(24),
-          padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
-        }}
-      >
-        <header>{header}</header>
-        <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
-    )
+const globalStyles = css`
+  * {
+    box-sizing: border-box;
+    font-size: ${designTokens.text.size.standard};
+    font-family: 'Roboto';
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    color: black;
   }
-}
 
-export default Layout
+  html {
+    font-size: ${designTokens.text.size.standard};
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Raleway';
+  }
+
+  h1 {
+    font-size: ${designTokens.text.size.xlarge};
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: ${designTokens.text.size.large};
+  }
+
+  h3 {
+    font-size: ${designTokens.text.size.medium};
+  }
+
+  p {
+    padding: 8px 0;
+  }
+
+  a {
+    border: none;
+    text-decoration: none;
+    font-size: inherit;
+    color: ${designTokens.colours.accent};
+    font-family: 'Roboto';
+    box-shadow: none;
+  }
+
+  a:visited {
+    text-decoration: none;
+    color: ${designTokens.colours.accent};
+  }
+
+  a:active, a:hover {
+    text-decoration: underline;
+    color: ${designTokens.colours.accent};
+  }
+
+  .code, .language-text {
+    font-family: 'Roboto Mono';
+    background-color: #F5F5F5;
+  }
+`;
+
+const Layout = ({ children }) => (
+  <div>
+    <Global styles={globalStyles} />
+    <main>{children}</main>
+  </div>
+);
+
+export default Layout;
