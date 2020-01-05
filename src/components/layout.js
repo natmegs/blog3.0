@@ -12,7 +12,7 @@ const globalStyles = css`
   * {
     box-sizing: border-box;
     font-size: ${designTokens.text.size.standard};
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.5;
@@ -24,7 +24,7 @@ const globalStyles = css`
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Raleway';
+    font-family: 'Raleway', sans-serif;
   }
 
   h1 {
