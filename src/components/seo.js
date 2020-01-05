@@ -5,12 +5,14 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-import React from "react"
-import PropTypes from "prop-types"
-import Helmet from "react-helmet"
-import { useStaticQuery, graphql } from "gatsby"
+import React from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
+import { useStaticQuery, graphql } from "gatsby";
 
-function SEO({ description, lang, meta, title }) {
+const defaultImage = `/images/betty_square.jpg`;
+
+function SEO({ description, lang, meta, title, image }) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -19,6 +21,7 @@ function SEO({ description, lang, meta, title }) {
             title
             description
             author
+            siteUrl
           }
         }
       }
@@ -26,6 +29,17 @@ function SEO({ description, lang, meta, title }) {
   )
 
   const metaDescription = description || site.siteMetadata.description;
+  let baseUrl = site.siteMetadata.siteUrl;
+
+  if (baseUrl === '' && typeof window !== 'undefined') {
+    baseUrl = window.location.origin;
+  }
+
+  if (baseUrl === '') {
+    console.error('Please set a baseUrl in your site metadata!');
+    return null;
+  }
+  const seoImage = `${baseUrl}${image || defaultImage}`;
 
   return (
     <Helmet
@@ -52,6 +66,14 @@ function SEO({ description, lang, meta, title }) {
           content: `website`,
         },
         {
+          property: `og:image`,
+          content: seoImage
+        },
+        {
+          property: `twitter:image`,
+          content: seoImage
+        },
+        {
           name: `twitter:card`,
           content: `summary`,
         },
@@ -74,11 +96,13 @@ function SEO({ description, lang, meta, title }) {
 
 SEO.defaultProps = {
   lang: `en`,
-  meta: []
+  meta: [],
+  image: null
 }
 
 SEO.propTypes = {
   lang: PropTypes.string,
+  image: PropTypes.string,
   meta: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,
 }

@@ -2,7 +2,6 @@
 title:  "2019 in books"
 date:   2020-01-04 15:30:30 -0700
 description: Year end wrap up of 2019 in books and dogs.
-featuredImage: ../../assets/betty-smile.jpg
 tags:
   - Life
 ---
